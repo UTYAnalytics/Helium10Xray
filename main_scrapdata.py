@@ -8,7 +8,7 @@ import time
 import tempfile
 
 wait_time = 60
-
+from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
@@ -80,7 +80,8 @@ def helium_next_login(driver, username, password):
 
 def start_driver(username, password, keyword):
     # chromedriver_path = os.path.join(dir_path, 'chromedriver.exe')  # Ensure this path is correct
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    chrome_service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=chrome_service,options=chrome_options)
     driver.delete_all_cookies()
 
     while len(driver.window_handles) == 1:
