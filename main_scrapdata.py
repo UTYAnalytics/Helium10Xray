@@ -33,17 +33,17 @@ with tempfile.TemporaryDirectory() as download_dir:
     # then add chromedriver to path
     chrome_options = webdriver.ChromeOptions()
     prefs = {
-        # "download.default_directory": download_dir,
+        "download.default_directory": download_dir,
         "download.prompt_for_download": False,
         "download.directory_upgrade": True,
         "safebrowsing.enabled": True,
         "profile.default_content_setting_values.geolocation": 2,
-        "download.default_directory": dir_path,
+        # "download.default_directory": dir_path,
     }
     options = [
         # Define window size here
         "--ignore-certificate-errors",
-        "--headless=new",
+        # "--headless=new",
         "--disable-gpu",
         "--no-sandbox",
         "--disable-dev-shm-usage",
@@ -54,7 +54,7 @@ with tempfile.TemporaryDirectory() as download_dir:
     ]
     chrome_options.add_experimental_option("prefs", prefs)
     chrome_options.add_extension(dir_path + "/Helium-10.crx")
-    
+
     for option in options:
         chrome_options.add_argument(option)
 
@@ -81,7 +81,7 @@ def helium_next_login(driver, username, password):
 def start_driver(username, password, keyword):
     # chromedriver_path = os.path.join(dir_path, 'chromedriver.exe')  # Ensure this path is correct
     chrome_service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=chrome_service,options=chrome_options)
+    driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
     driver.delete_all_cookies()
 
     while len(driver.window_handles) == 1:
@@ -202,7 +202,7 @@ def scrap_data_xray_product(driver, keyword):
 
     except Exception as e:
         # If the popup is not found within the timeout, handle it (e.g., by logging or skipping)
-        file_path = dir_path
+        file_path = download_dir
 
         newest_file_path = get_newest_file(file_path)
         # Get the current UTC time
